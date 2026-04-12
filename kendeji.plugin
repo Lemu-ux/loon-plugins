@@ -1,0 +1,16 @@
+#!name=肯德基去广告（秒开优化版）
+#!desc=去广告 + 开屏加速
+#!author=ChatGPT优化
+
+[Rewrite]
+# 开屏广告 → 直接返回空JSON（关键优化）
+^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome\d+\/.* url 200 '{"code":0,"data":null}'
+
+# 广告接口
+^https?:\/\/res\.kfc\.com\.cn\/advertisement\/.* url 200 '{}'
+
+# 兜底（避免卡顿）
+^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/.* url 200 '{}'
+
+[MITM]
+hostname = %APPEND% res.kfc.com.cn
