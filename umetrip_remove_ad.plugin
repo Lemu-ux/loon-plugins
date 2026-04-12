@@ -1,12 +1,12 @@
-#!name=航旅纵横去广告（抓包版）
-#!desc=精准去除开屏广告、弹窗、推荐流广告
+#!name=航旅纵横去开屏广告（简化版）
+#!desc=仅去除航旅纵横的开屏广告
 #!author=ChatGPT
 
 [Rewrite]
-^https?:\/\/([^\/]+\.)?(umetrip|flightmanager|hxtrip)\.(com|cn)\/.*(splash|startup|launch|advert|ad|promotion|welcome).* url reject-dict
+^https?:\/\/([^\/]+\.)?(umetrip|flightmanager|hxtrip)\.(com|cn)\/.*(splash|startup|launch).* url reject-dict
 
 [Script]
-http-response ^https?:\/\/([^\/]+\.)?(umetrip|flightmanager|hxtrip)\.(com|cn)\/.* requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Lemu-ux/loon-plugins/main/umetrip_remove_ad.js,tag=航旅纵横去广告
+http-response ^https?:\/\/([^\/]+\.)?(umetrip|flightmanager|hxtrip)\.(com|cn)\/.* requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/Lemu-ux/loon-plugins/main/umetrip_remove_ad.js,tag=航旅纵横去开屏广告
 
 [MITM]
 hostname = %APPEND% *.umetrip.com, *.flightmanager.com, *.hxtrip.com
