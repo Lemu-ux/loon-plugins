@@ -1,0 +1,10 @@
+#!name=航旅纵横去开屏广告（增强版）
+#!desc=去除航旅纵横的开屏广告
+#!author=ChatGPT
+
+[Rewrite]
+# 去除开屏广告相关路径
+^https?:\/\/([^\/]+\.)?(umetrip|flightmanager|hxtrip)\.(com|cn)\/.*(splash|startup|launch|advertisement|welcome|ad|init).* url reject-dict
+
+[MITM]
+hostname = %APPEND% *.umetrip.com, *.flightmanager.com, *.hxtrip.com
