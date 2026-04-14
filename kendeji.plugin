@@ -1,16 +1,28 @@
-#!name=肯德基去广告（秒开优化版）
-#!desc=去广告 + 开屏加速
-#!author=ChatGPT优化
-
-[Rewrite]
-# 开屏广告 → 直接返回空JSON（关键优化）
-^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/apphome\d+\/.* url 200 '{"code":0,"data":null}'
-
-# 广告接口
-^https?:\/\/res\.kfc\.com\.cn\/advertisement\/.* url 200 '{}'
-
-# 兜底（避免卡顿）
-^https?:\/\/res\.kfc\.com\.cn\/CRM\/kfcad\/.* url 200 '{}'
+# Umetrip (航旅纵横) Remove Ads - 2025-11 STRICT
+# Author: ChatGPT
+# Goal: Block splash ads even when CDN switches to Ali (ossgw.alicdn.com / mPaaS).
+# Notes:
+# - Keep gateway traffic for core functions.
+# - May be slightly aggressive; if a feature breaks, share the hit URL from logs and I'll relax it.
 
 [MITM]
-hostname = %APPEND% res.kfc.com.cn
+hostname = oss.umetrip.com, api.umetrip.com, ossgw.alicdn.com, *.aliyuncs.com
+
+[Rewrite]
+# ---- Primary (official OSS) ----
+^https?:\/\/oss\.umetrip\.com\/fs\/advert\/polite.* reject-dict
+^https?:\/\/oss\.umetrip\.com\/fs\/advert\/.* reject-dict
+
+# ---- Ali CDN mirror of the same bucket ----
+^https?:\/\/ossgw\.alicdn\.com\/.*\/fs\/advert\/polite.* reject-dict
+^https?:\/\/ossgw\.alicdn\.com\/.*\/fs\/advert\/.* reject-dict
+
+# ---- mPaaS (Ali) possible splash delivery paths (conservative) ----
+^https?:\/\/(?:[a-z0-9.-]+\.)?aliyuncs\.com\/.*/advert\/.* reject-dict
+^https?:\/\/(?:[a-z0-9.-]+\.)?aliyuncs\.com\/.*/ads?\/.* reject-dict
+
+# ---- Legacy API ad endpoints ----
+^https?:\/\/api\.umetrip\.com\/api\/(ad|advert)\/.* reject-dict
+
+# ---- Safeguard: do NOT block app gateway (business APIs) ----
+# (No rule here; we simply avoid matching /gateway/)
