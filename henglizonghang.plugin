@@ -1,4 +1,4 @@
-# Umetrip (航旅纵横) Remove Ads - 2025-11 STRICT
+# #!name = 航旅纵横
 # Author: ChatGPT
 # Goal: Block splash ads even when CDN switches to Ali (ossgw.alicdn.com / mPaaS).
 # Notes:
